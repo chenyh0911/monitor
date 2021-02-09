@@ -1,0 +1,2 @@
+# monitor
+logger monitor server
