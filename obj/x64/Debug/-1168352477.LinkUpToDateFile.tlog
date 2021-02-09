@@ -1,0 +1,1 @@
+g++ -o "/projects/Monitor/bin/x64/Debug/Monitor.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /projects/Monitor/obj/x64/Debug/Global.o /projects/Monitor/obj/x64/Debug/main.o /projects/Monitor/obj/x64/Debug/TcpSocket.o /projects/Monitor/obj/x64/Debug/EpollServer.o -lpthread

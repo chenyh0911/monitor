@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Common\Global.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\TcpSocket.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Worker\EpollServer.cpp">
+      <Filter>Worker</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{0e1b5625-bd04-4ff1-810c-81bdb2874b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{b22e266c-e4cb-4f4c-aead-358a1615c901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Worker">
+      <UniqueIdentifier>{365b7086-becf-4b9e-8f99-c3ea15b08988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Locker">
+      <UniqueIdentifier>{9a904981-782c-4f94-8124-de4686c2540f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\Global.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\TcpSocket.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="Worker\BaseTask.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="Worker\EpollServer.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="Worker\Task.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="Worker\ThreadPool.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="Locker\SemLocker.h">
+      <Filter>Locker</Filter>
+    </ClInclude>
+    <ClInclude Include="Locker\MutexLocker.h">
+      <Filter>Locker</Filter>
+    </ClInclude>
+    <ClInclude Include="Locker\CondLocker.h">
+      <Filter>Locker</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

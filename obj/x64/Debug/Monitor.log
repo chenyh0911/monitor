@@ -1,0 +1,13 @@
+﻿  正在清理远程项目目录
+  正在验证源
+  正在将源远程复制到“192.168.1.201”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  Global.cpp
+  main.cpp
+  TcpSocket.cpp
+  EpollServer.cpp
+  正在链接对象
+  Monitor.vcxproj -> D:\code\linux\Monitor\bin\x64\Debug\Monitor.out
