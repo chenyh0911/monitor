@@ -35,9 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{56de5591-3509-44ae-87f7-f24074a3cd34}</ProjectGuid>
+    <ProjectGuid>{b78641aa-b242-49ca-b41c-e4523cf6d4cc}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>Monitor</RootNamespace>
+    <RootNamespace>monitor</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -76,25 +76,36 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClCompile Include="Common\Global.cpp" />
+    <ClCompile Include="common\global.cpp" />
+    <ClCompile Include="common\server.cpp" />
+    <ClCompile Include="core\db_pool.cpp" />
+    <ClCompile Include="core\db_server.cpp" />
+    <ClCompile Include="core\logger.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Net\TcpSocket.cpp" />
-    <ClCompile Include="Worker\EpollServer.cpp" />
+    <ClCompile Include="util\ini.cpp" />
+    <ClCompile Include="worker\epoll_server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common\Global.h" />
-    <ClInclude Include="Locker\CondLocker.h" />
-    <ClInclude Include="Locker\MutexLocker.h" />
-    <ClInclude Include="Locker\SemLocker.h" />
-    <ClInclude Include="Net\TcpSocket.h" />
-    <ClInclude Include="Worker\BaseTask.h" />
-    <ClInclude Include="Worker\EpollServer.h" />
-    <ClInclude Include="Worker\Task.h" />
-    <ClInclude Include="Worker\ThreadPool.h" />
+    <ClInclude Include="common\global.h" />
+    <ClInclude Include="common\server.h" />
+    <ClInclude Include="core\db_pool.h" />
+    <ClInclude Include="core\db_server.h" />
+    <ClInclude Include="core\logger.h" />
+    <ClInclude Include="util\cond_locker.h" />
+    <ClInclude Include="util\ini.h" />
+    <ClInclude Include="util\mutex_locker.h" />
+    <ClInclude Include="util\sem_locker.h" />
+    <ClInclude Include="worker\base_task.h" />
+    <ClInclude Include="worker\epoll_server.h" />
+    <ClInclude Include="worker\task.h" />
+    <ClInclude Include="worker\thread_pool.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <LibraryDependencies>pthread</LibraryDependencies>
+      <LibraryDependencies>mysqlcppconn;crypto;pthread </LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

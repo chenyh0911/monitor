@@ -1,13 +1,34 @@
-#include "Global.h"
+#include "global.h"
 
 
-Global* Global::instance = NULL;
+global* global::instance = NULL;
 
-Global::Global()
+global::global()
+	: _server(NULL), _config(NULL)
 {
+
 }
 
 
-Global::~Global()
+global::~global()
 {
+
+	if (instance->_server)
+	{
+		delete instance->_server;
+		instance->_server = NULL;
+	}
+
+	if (instance->_config)
+	{
+		delete instance->_config;
+		instance->_config = NULL;
+	}
+
+	if (instance->_pool)
+	{
+		delete instance->_pool;
+		instance->_pool = NULL;
+	}
+
 }
