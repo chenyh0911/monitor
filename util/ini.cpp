@@ -10,7 +10,6 @@ std::string& ini::trim(std::string& str)
     return str;
 }
 
-
 int ini::read(std::string path, mnodes& nodes)
 {
     std::ifstream config_file(path.c_str());

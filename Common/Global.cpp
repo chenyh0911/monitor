@@ -4,7 +4,7 @@
 global* global::instance = NULL;
 
 global::global()
-	: _server(NULL), _config(NULL)
+	: _server(NULL), _config(NULL), _pool(NULL)
 {
 
 }

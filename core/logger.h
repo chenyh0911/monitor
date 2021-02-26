@@ -13,10 +13,10 @@ namespace logger
 {
 
 	//解析日志数据
-	int parse(const char*, std::string&, std::string&, std::string&);
+	int parse(const std::string data, std::string& level, std::string& time, std::string& log);
 
 	//数据调度
-	int scheduler(const std::string, int);
+	int scheduler(const std::string ip, int port, const std::string data);
 
 };
 

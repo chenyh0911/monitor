@@ -73,7 +73,7 @@ int server::insert_client()
 	c->ip = client_ip.c_str();
 	c->port = client_port;
 	_clients.insert(std::pair<int, pclient>(cfd, c));
-	printf("[%s:%d] connected successfully, fd=%d\n", client_ip.c_str(), client_port, cfd);
+	printf("[%s:%d] connected successfully, fd=%d, current size=%d\n", client_ip.c_str(), client_port, cfd, _clients.size());
 	return cfd;
 }
 

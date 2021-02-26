@@ -54,7 +54,7 @@ public:
 	void release() { close(_fd); _fd = -1; };
 
 public:
-	static int convert_to_net(int, std::string&, int&);
+	static int convert_to_net(int cfd, std::string& ip, int& port);
 
 private:
 	int _fd;

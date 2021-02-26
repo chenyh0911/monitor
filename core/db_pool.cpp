@@ -1,28 +1,55 @@
 #include "db_pool.h"
 
+#include <string.h>
+#include <exception>
 
-db_pool::db_pool(string host, string user, int port, string password, string database, int min, int max)
+
+db_pool::db_pool(string host, string user, string port, string password, int min, int max)
 {
-	_host = host;
-	_user = user;
-	_port = port;
-	_password = password;
-	_database = database;
+	/*_host.append("tcp://");
+	_host.append(host.c_str());
+	_host.append(":");
+	_host.append(port.c_str());*/
+
+	int l1 = sizeof("tcp://") - 1;
+	int l2 = strlen(host.c_str()) - 1;
+	int l3 = sizeof(":") - 1;
+	int l4 = strlen(port.c_str()) - 1;
+
+	char h[64];
+	//memset(h, '\0', sizeof h);
+	memcpy(h, "tcp://", l1);
+	memcpy(h + l1, host.c_str(), l2);
+	memcpy(h + l1 + l2, ":", l3);
+	memcpy(h + l1 + l2 + l3, port.c_str(), l4);
+	h[l1 + l2 + l3 + l4] = '\0';
+
+	char u[10];
+	memcpy(u, user.c_str(), strlen(user.c_str()) - 1);
+	u[strlen(user.c_str()) - 1] = '\0';
+	
+	char p[32];
+	memcpy(p, password.c_str(), strlen(password.c_str()) - 1);
+	p[strlen(password.c_str()) - 1] = '\0';
+
+	_host = h;
+	_user = u;
+	_password = p;
 	_min_size = min;
 	_max_size = max;
 	_now_size = 0;
-	
+
 	try
 	{
 		_driver = sql::mysql::get_driver_instance();
 	}
 	catch (sql::SQLException& e)
 	{
-		perror("get driver error.\n");
+		std::cout << "get driver instance error:" << e.what() << std::endl;
 	}
 	catch (std::runtime_error& e)
 	{
-		perror("[ConnPool] run time error.\n");
+		//perror("[ConnPool] run time error.\n");
 	}
 
 	init_connection(_min_size);
@@ -107,9 +134,10 @@ void db_pool::init_connection(int size)
 			_conn_list.push_back(conn);
 			++_now_size;
 		}
-		else
+		else 
 		{
-			perror("Init connection error.");
+			std::cout << "mysql disconnect, please check db config..." << std::endl;
+			throw std::exception();
 		}
 	}
 
@@ -127,12 +155,16 @@ Connection* db_pool::create()
 	}
 	catch (sql::SQLException& e)
 	{
-		perror("create connection error.");
+		std::cout << "======================" << std::endl;
+		std::cout << "connect host:" << _host.c_str() << std::endl;
+		std::cout << "connect user:" << _user.c_str() << std::endl;
+		std::cout << "connect password:" << _password.c_str() << std::endl;
+		std::cout << "connect error:" << e.what() << std::endl;
+		std::cout << "======================" << std::endl;
 		return NULL;
 	}
 	catch (std::runtime_error& e)
 	{
-		perror("[CreateConnection] run time error.");
 		return NULL;
 	}
 }

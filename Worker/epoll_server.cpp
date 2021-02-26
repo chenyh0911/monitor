@@ -78,7 +78,16 @@ exitepoll:
 				else
 				{
 					//数据成功读取，向线程池中添加任务
-					base_task *t = new task(buffer, fd);
+					std::string client_ip;
+					int client_port;
+					if (_server->convert_to_net(fd, client_ip, client_port) == -1)
+					{
+						std::cout << "convert to client ip/port error" << std::endl;
+						client_ip = "0.0.0.0";
+						client_port = 0;
+					};
+
+					base_task *t = new task(client_ip.c_str(), client_port, buffer);
 					_pool->task(t);
 				}
 			}

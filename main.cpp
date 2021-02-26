@@ -3,9 +3,12 @@
 #include "./util/ini.h"
 #include "./common/global.h"
 #include "./worker/epoll_server.h"
+#include "./core/db_server.h"
 
 #define ISNOT_EMPTY(s) if(s.compare("") != 0)
 #define CONFIG_PATH "/projects/monitor/config.ini"
+
+using namespace DB;
 
 int convert_to_int(std::string str) 
 {
@@ -66,7 +69,7 @@ int load_config(mnodes nodes)
     ISNOT_EMPTY(f_apart)
         _config->f_apart = convert_to_int(f_apart);
     ISNOT_EMPTY(f_dir)
-        _config->f_dir = f_dir;
+        _config->f_dir = f_dir.c_str();
 
     ISNOT_EMPTY(d_close)
         _config->d_close = convert_to_int(d_close);
@@ -75,15 +78,15 @@ int load_config(mnodes nodes)
     ISNOT_EMPTY(d_apart)
         _config->d_apart = convert_to_int(d_apart);
     ISNOT_EMPTY(d_host)
-        _config->d_host = d_host;
+        _config->d_host = d_host.c_str();
     ISNOT_EMPTY(d_user)
-        _config->d_user = d_user;
+        _config->d_user = d_user.c_str();
     ISNOT_EMPTY(d_port)
-        _config->d_port = convert_to_int(d_port);
+        _config->d_port = d_port.c_str();
     ISNOT_EMPTY(d_password)
-        _config->d_password = d_password;
+        _config->d_password = d_password.c_str();
     ISNOT_EMPTY(d_database)
-        _config->d_database = d_database;
+        _config->d_database = d_database.c_str();
     ISNOT_EMPTY(d_min_pool_size)
         _config->d_min_pool_size = convert_to_int(d_min_pool_size);
     ISNOT_EMPTY(d_max_pool_size)
@@ -102,6 +105,7 @@ int check_config()
 int main()
 {
     server* _server = NULL;
+    db_pool* _pool = NULL;
     thread_pool<base_task>* pool = NULL;
     epoll_server* epoll = NULL;
 
@@ -113,32 +117,42 @@ int main()
     load_config(nodes);
 
     pconfig _config = global::init()->config();
-    
+
     //开启server
     _server = new server(_config->s_port, _config->s_max_client);
     if (_server->init() == -1)
     {
-        goto _EXIT;
+        goto _QUIT;
     };
     _server->run();
     global::init()->socket(_server);
+
+    //开启数据库连接池
+    _pool = new db_pool(_config->d_host, _config->d_user, _config->d_port, _config->d_password, _config->d_min_pool_size, _config->d_max_pool_size);
+    global::init()->pool(_pool);
+
+    //检测数据
+    if (DB::check(_config->d_database) == -1)
+    {
+        goto _QUIT;
+    };
 
     //开启线程池
     pool = new thread_pool<base_task>(_config->s_max_thread, _config->s_max_task);
     if (pool->init() == -1)
     {
-        goto _EXIT;
+        goto _QUIT;
     };
 
     //开启管道
     epoll = new epoll_server(_server, pool);
     if (epoll->init() == -1)
     {
-        goto _EXIT;
+        goto _QUIT;
     };
     epoll->run();
 
-_EXIT:
+_QUIT:
 	global::release();
     return 0;
 }

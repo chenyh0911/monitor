@@ -24,7 +24,7 @@ using namespace sql;
 class db_pool
 {
 public:
-	db_pool(string, string, int, string, string, int, int);
+	db_pool(string, string, string, string, int, int);
 	virtual ~db_pool();
 
 public:
@@ -42,9 +42,7 @@ private:
 
 	std::string _host;
 	std::string _user;
-	int _port;
 	std::string _password;
-	std::string _database;
 
 	int _min_size;
 	int _max_size;

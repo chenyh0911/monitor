@@ -26,7 +26,7 @@
 #define DB_APART 0
 #define DB_HOST "127.0.0.1"
 #define DB_USER "root"
-#define DB_PORT 3306
+#define DB_PORT "3306"
 #define DB_PASSWORD "123456"
 #define DB_DATABASE "logger"
 #define DB_MIN_POOL_SIZE 5
@@ -54,7 +54,7 @@ typedef struct _CONFIG
 	int d_apart;
 	std::string d_host;
 	std::string d_user;
-	int d_port;
+	std::string d_port;
 	std::string d_password;
 	std::string d_database;
 	int d_min_pool_size;

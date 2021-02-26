@@ -5,6 +5,7 @@
 
 #include "base_task.h"
 #include "../core/logger.h"
+#include "../util/ini.h"
 
 #define MAX_BUFFER 1024 * 16
 
@@ -13,7 +14,8 @@ class task : public base_task
 
 public:
 	//初始化任务
-	task(char *data, int fd) : _cfd(fd)
+	task(const char* ip, int port, const char* data) 
+		: _ip(ip), _port(port)
 	{
 		//解析包
 		////结构：包头+包体长度+包体
@@ -27,11 +29,28 @@ public:
 	//任务执行
 	void worker()
 	{
-		logger::scheduler(_data, _cfd);
+		if (trim(_data).size() > 0)
+		{
+			logger::scheduler(_ip, _port, _data);
+		};
 	};
 
 private:
-	int _cfd;
+	
+	std::string& trim(std::string& str)
+	{
+		if (str.empty())
+			return str;
+
+		str.erase(0, str.find_first_not_of(" "));
+		str.erase(str.find_last_not_of(" ") + 1);
+		return str;
+	}
+
+private:
+
+	std::string _ip; //客户端ip
+	int _port; //客户端port
 	std::string _data; //数据包
 
 	//int _head;	//包头
