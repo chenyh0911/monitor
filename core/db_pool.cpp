@@ -11,30 +11,33 @@ db_pool::db_pool(string host, string user, string port, string password, int min
 	_host.append(":");
 	_host.append(port.c_str());*/
 
-	int l1 = sizeof("tcp://") - 1;
-	int l2 = strlen(host.c_str()) - 1;
-	int l3 = sizeof(":") - 1;
-	int l4 = strlen(port.c_str()) - 1;
+	//int l1 = sizeof("tcp://") - 1;
+	//int l2 = strlen(host.c_str()) - 1;
+	//int l3 = sizeof(":") - 1;
+	//int l4 = strlen(port.c_str()) - 1;
 
-	char h[64];
-	//memset(h, '\0', sizeof h);
-	memcpy(h, "tcp://", l1);
-	memcpy(h + l1, host.c_str(), l2);
-	memcpy(h + l1 + l2, ":", l3);
-	memcpy(h + l1 + l2 + l3, port.c_str(), l4);
-	h[l1 + l2 + l3 + l4] = '\0';
+	//char h[64];
+	////memset(h, '\0', sizeof h);
+	//memcpy(h, "tcp://", l1);
+	//memcpy(h + l1, host.c_str(), l2);
+	//memcpy(h + l1 + l2, ":", l3);
+	//memcpy(h + l1 + l2 + l3, port.c_str(), l4);
+	//h[l1 + l2 + l3 + l4] = '\0';
 
-	char u[10];
-	memcpy(u, user.c_str(), strlen(user.c_str()) - 1);
-	u[strlen(user.c_str()) - 1] = '\0';
-	
-	char p[32];
-	memcpy(p, password.c_str(), strlen(password.c_str()) - 1);
-	p[strlen(password.c_str()) - 1] = '\0';
+	//char u[10];
+	//memcpy(u, user.c_str(), strlen(user.c_str()) - 1);
+	//u[strlen(user.c_str()) - 1] = '\0';
+	//
+	//char p[32];
+	//memcpy(p, password.c_str(), strlen(password.c_str()) - 1);
+	//p[strlen(password.c_str()) - 1] = '\0';
 
-	_host = h;
-	_user = u;
-	_password = p;
+	//_host = h;
+	//_user = u;
+	//_password = p;
+	_host = "tcp://" + host + ":" + port;
+	_user = user;
+	_password = password;
 	_min_size = min;
 	_max_size = max;
 	_now_size = 0;

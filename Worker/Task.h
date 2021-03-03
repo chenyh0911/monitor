@@ -14,8 +14,8 @@ class task : public base_task
 
 public:
 	//初始化任务
-	task(const char* ip, int port, const char* data) 
-		: _ip(ip), _port(port)
+	task(int cfd, const char* data) 
+		: _cfd(cfd)
 	{
 		//解析包
 		////结构：包头+包体长度+包体
@@ -31,7 +31,7 @@ public:
 	{
 		if (trim(_data).size() > 0)
 		{
-			logger::scheduler(_ip, _port, _data);
+			logger::scheduler(_cfd, _data);
 		};
 	};
 
@@ -49,8 +49,7 @@ private:
 
 private:
 
-	std::string _ip; //客户端ip
-	int _port; //客户端port
+	int _cfd; //客户端套接字
 	std::string _data; //数据包
 
 	//int _head;	//包头

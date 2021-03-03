@@ -2,6 +2,7 @@
 
 #include "./util/ini.h"
 #include "./common/global.h"
+#include "./common/common.h"
 #include "./worker/epoll_server.h"
 #include "./core/db_server.h"
 
@@ -37,7 +38,6 @@ int load_config(mnodes nodes)
 
     std::string d_close = ini::get_value(nodes, "DB", "d_close");
     std::string d_level = ini::get_value(nodes, "DB", "d_level");
-    std::string d_apart = ini::get_value(nodes, "DB", "d_apart");
     std::string d_host = ini::get_value(nodes, "DB", "d_host");
     std::string d_user = ini::get_value(nodes, "DB", "d_user");
     std::string d_port = ini::get_value(nodes, "DB", "d_port");
@@ -75,8 +75,6 @@ int load_config(mnodes nodes)
         _config->d_close = convert_to_int(d_close);
     ISNOT_EMPTY(d_level)
         _config->d_level = convert_to_int(d_level);
-    ISNOT_EMPTY(d_apart)
-        _config->d_apart = convert_to_int(d_apart);
     ISNOT_EMPTY(d_host)
         _config->d_host = d_host.c_str();
     ISNOT_EMPTY(d_user)
@@ -122,10 +120,18 @@ int main()
     _server = new server(_config->s_port, _config->s_max_client);
     if (_server->init() == -1)
     {
+        std::cout << "server init error" << std::endl;
         goto _QUIT;
     };
     _server->run();
     global::init()->socket(_server);
+
+    //检测日志存放地址
+    if (common::create_dir(_config->f_dir.c_str()) == -1)
+    {
+        std::cout << "create logger dir error" << std::endl;
+        goto _QUIT;
+    }
 
     //开启数据库连接池
     _pool = new db_pool(_config->d_host, _config->d_user, _config->d_port, _config->d_password, _config->d_min_pool_size, _config->d_max_pool_size);
@@ -134,6 +140,7 @@ int main()
     //检测数据
     if (DB::check(_config->d_database) == -1)
     {
+        std::cout << "create logger dir error" << std::endl;
         goto _QUIT;
     };
 

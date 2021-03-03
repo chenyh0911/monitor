@@ -1,5 +1,7 @@
 #include "server.h"
 
+#include "../common/common.h"
+
 server::server(int port, int backlog) 
 	: _fd(-1), _port(port)
 {
@@ -8,7 +10,7 @@ server::server(int port, int backlog)
 
 server::~server()
 {
-	_clients.clear();
+	clear_client();
 	release();
 };
 
@@ -68,10 +70,28 @@ int server::insert_client()
 	std::string client_ip(inet_ntoa(addr.sin_addr));
 	int client_port(ntohs(addr.sin_port));
 
+	//创建目录
+	pconfig pconf = global::init()->config();
+	char path[512];
+	memset(path, '\0', sizeof path);
+	snprintf(path, sizeof(path), "%s/%s", pconf->f_dir.c_str(), client_ip.c_str());
+
 	pclient c = new client;
 	c->fd = cfd;
 	c->ip = client_ip.c_str();
 	c->port = client_port;
+	c->path = path;
+	
+	if (common::create_dir(path) == -1)
+	{
+		printf("[%s:%d] create dir error, fd=%d\n", client_ip.c_str(), client_port, cfd);
+		c->path = "";
+	}
+	else 
+	{
+		common::connect_in_or_out(c, 1);
+	}
+
 	_clients.insert(std::pair<int, pclient>(cfd, c));
 	printf("[%s:%d] connected successfully, fd=%d, current size=%d\n", client_ip.c_str(), client_port, cfd, _clients.size());
 	return cfd;
@@ -82,9 +102,57 @@ int server::remove_client(int cfd)
 	std::map<int, pclient>::iterator itr = _clients.find(cfd);
 	if (_clients.end() == itr)
 		return -1;
+	
+	common::connect_in_or_out(itr->second, 0);
 
+	char ip[16];
+	memset(ip, '\0', sizeof ip);
+	memcpy(ip, itr->second->ip.c_str(), itr->second->ip.length());
+
+	delete itr->second;
 	printf("[%s:%d] disconnect, fd=%d, remain size=%d\n", itr->second->ip.c_str(), itr->second->port, cfd, _clients.size());
 	_clients.erase(cfd);
+
+	if (!is_exist(ip))
+		global::init()->del_ip_file(ip);
+
+	return 0;
+}
+
+pclient server::find_client(int cfd)
+{
+	std::map<int, pclient>::iterator itr = _clients.find(cfd);
+	if (_clients.end() == itr)
+		return NULL;
+
+	return itr->second;
+}
+
+int server::clear_client() 
+{
+	std::map<int, pclient>::iterator iter = _clients.begin();
+	while (iter != _clients.end())
+	{
+		//清理
+		delete iter->second;
+		iter++;
+	}
+
+	_clients.clear();
+	return 0;
+}
+
+int server::is_exist(const char* ip)
+{
+	std::map<int, pclient>::iterator itr = _clients.begin();
+	while (itr != _clients.end())
+	{
+		if (strcmp(itr->second->ip.c_str(), ip) == 0)
+		{
+			return 1;
+		};
+	}
+
 	return 0;
 }
 

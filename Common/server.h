@@ -20,12 +20,14 @@ typedef struct _CLIENT
 	std::string ip;
 	int port;
 	int fd;
+	std::string path;
 
 	_CLIENT()
 	{
 		ip = "";
 		port = 0;
 		fd = 0;
+		path = "";
 	}
 
 } client, *pclient;
@@ -50,7 +52,10 @@ public:
 
 public:
 	int insert_client();
-	int remove_client(int);
+	int remove_client(int cfd); 
+	pclient find_client(int cfd);
+	int clear_client();
+	int is_exist(const char* ip);
 	void release() { close(_fd); _fd = -1; };
 
 public:

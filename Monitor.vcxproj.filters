@@ -23,6 +23,9 @@
     <ClCompile Include="core\db_server.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="common\common.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="common">
@@ -77,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="core\db_server.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="common\common.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

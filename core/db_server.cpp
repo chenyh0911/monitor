@@ -2,18 +2,6 @@
 
 #include "../common/global.h"
 
-#define CHECK_DB "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET utf8 COLLATE utf8_general_ci;"
-#define USE_DB "use %s;"
-#define CHECK_TABLE "CREATE TABLE IF NOT EXISTS logger (" \
-		"id int(11) AUTO_INCREMENT," \
-		"ip varchar(16)," \
-		"port int(5)," \
-		"level varchar(8)," \
-		"time varchar(32)," \
-		"log varchar(16384)," \
-		"PRIMARY KEY(`id`)" \
-	") ENGINE = myisam CHARSET = utf8;"
-
 //检测数据库是否存在
 int DB::check(const std::string _database)
 {
@@ -34,7 +22,8 @@ int DB::check(const std::string _database)
 		state = conn->createStatement();
 		state->execute(_db);
 		state->execute(db);
-		state->execute(CHECK_TABLE);
+		state->execute(CHECK_LOGGER_TABLE);
+		state->execute(CHECK_EVENT_TABLE);
 
 		delete state;
 		pool->connect(conn);
@@ -105,6 +94,7 @@ int DB::execute(const std::string _sql, const std::string _database)
 	catch (const std::exception& e)
 	{
 		perror(e.what());
+		count = -1;
 	}
 
 	return count;

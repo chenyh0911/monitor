@@ -76,6 +76,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="common\common.cpp" />
     <ClCompile Include="common\global.cpp" />
     <ClCompile Include="common\server.cpp" />
     <ClCompile Include="core\db_pool.cpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="worker\epoll_server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\common.h" />
     <ClInclude Include="common\global.h" />
     <ClInclude Include="common\server.h" />
     <ClInclude Include="core\db_pool.h" />
@@ -105,7 +107,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <LibraryDependencies>pthread;mysqlcppconn;ssl;crypto</LibraryDependencies>
+      <LibraryDependencies>pthread;mysqlcppconn;ssl;crypto;boost_regex</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

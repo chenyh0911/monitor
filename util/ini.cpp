@@ -3,10 +3,30 @@
 
 std::string& ini::trim(std::string& str)
 {
-    std::string::size_type pos = 0;
-    while (str.npos != (pos = str.find(" ")))
-        str = str.replace(pos, pos + 1, "");
-
+    int i = 0;
+    char* ch;
+    ch = (char*)malloc(str.length() + 1);
+    std::string::iterator iter = str.begin();
+    while (iter != str.end())
+    {
+        switch (*iter)
+        {
+        case ' ':
+        case '\r':
+        case '\n':
+        case '\t':
+            break;
+        default:
+            ch[i] = *iter;
+            i++;
+            break;
+        }
+        iter++;
+    }
+    ch[i] = '\0';
+    str = ch;
+    free(ch);
+    ch = NULL;
     return str;
 }
 
