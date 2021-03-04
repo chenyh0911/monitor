@@ -12,6 +12,13 @@ V1.0.3 支持
  + linux php_logger
  + windows monitor
  + windows php_logger
+ 
+## 功能
+
+ + 支持跨平台 windows/linux
+ + 支持配置热更新
+ + 支持socket断线重连重传
+ + 支持内存共享
 
 ## 使用
 
