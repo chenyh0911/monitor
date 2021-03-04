@@ -18,35 +18,35 @@ V1.0.3 支持
 > linux monitor
 
 ~~~
-l_monitor.out 运行程序，项目提供 linux下使用
-pthread库 系统自带 
-mysqlcppconn库 可以使用本项目提供 如果不开启数据库存储日志，则不需要使用
-ssl	系统自带,用于支持mysqlcppconn
-crypto 系统自带,用于支持mysqlcppconn
-boost_regex 网络下载
-config.ini 项目提供，可自行修改 自行配置路径运行命令 -c xxx/xxx.ini，不使用则默认加载 根目录下config.ini文件  
+ + l_monitor.out 运行程序，项目提供 linux下使用
+ + pthread库 系统自带 
+ + mysqlcppconn库 可以使用本项目提供 如果不开启数据库存储日志，则不需要使用
+ + ssl	系统自带,用于支持mysqlcppconn
+ + crypto 系统自带,用于支持mysqlcppconn
+ + boost_regex 网络下载
+ + config.ini 项目提供，可自行修改 自行配置路径运行命令 -c xxx/xxx.ini，不使用则默认加载 根目录下config.ini文件  
 ~~~
 
 > linux php_logger
 
 ~~~
-logger.so PHP扩展库，项目提供 linux下使用
-php-7.2.x ZTS版 网络下载自己编译 
-pthread库 系统自带
+ + logger.so PHP扩展库，项目提供 linux下使用
+ + php-7.2.x ZTS版 网络下载自己编译 
+ + pthread库 系统自带
 ~~~
 
 > windows monitor
 
 ~~~
-未完成，待续
+ + 未完成，待续
 ~~~
 
 > windows php_logger
 
 ~~~
-php_logger.dll PHP扩展库，项目提供 windows下使用
-php-7.2.x ZTS版 网络下载自己编译 
-pthread库 项目提供，可网络下载 pthreadVC2.dll置于php.exe同级目录
+ + php_logger.dll PHP扩展库，项目提供 windows下使用
+ + php-7.2.x ZTS版 网络下载自己编译 
+ + pthread库 项目提供，可网络下载 pthreadVC2.dll置于php.exe同级目录
 ~~~
 
 > monitor使用配置
